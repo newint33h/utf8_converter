@@ -58,4 +58,27 @@ class UTF8ConverterTest < Minitest::Test
     # ISO_8859_1 as UTF_8 without common encodings to test
     execute_test("A\xF1o", 'A?o')
   end
+
+  def test_crash_prevention
+    UTF8Converter.common_encodings = UTF8Converter::DEFAULT_COMMON_ENCODINGS
+
+    # A valid binary encoding
+    text = "\xA9".force_encoding(Encoding::BINARY)
+    assert_equal(Encoding::BINARY, text.encoding)
+    assert_equal(true, text.valid_encoding?)
+
+    begin
+      # Normal translation fails in Ruby
+      text = "\xA9".force_encoding(Encoding::BINARY)
+      text.encode(Encoding::UTF_8)
+      assert(false, 'Successful conversion not expected')
+    rescue
+      assert(true, 'Failure expected')
+    end
+
+    # Convert binary data into UTF8
+    text = "\xA9".force_encoding(Encoding::BINARY)
+    text.to_utf8!
+    assert_equal('©', text)
+  end
 end

@@ -1,6 +1,14 @@
 # UTF8 Converter
 
-A Ruby gem that attempts to convert texts from unknown encodings to UTF8.
+A gem to force the convertion of text in any encoding into UTF8 without crashing and doing 
+the best guess convertion.
+
+## Description
+
+This gem attempts to convert the received text to UTF8. It works by trying to convert
+the given text with a list of possible common encodings. This is useful if the developer
+knows the most common encodings that the application is going to be receiving, leaving
+the guessing work to this gem and by safely converting (without crashing) the received text.
 
 ## Installation
 
@@ -38,7 +46,8 @@ puts unknown_text
 
 ```
 
-However the previous code will only convert the encodings listed in the default encodings listed
+However the previous code will only convert the encodings listed the default commong 
+encodings variable:
 in the following variable:
 
 ```
@@ -66,4 +75,13 @@ puts "A\xF1o".to_utf8
 UTF8Converter.default_replace_character = ''
 puts "A\xF1o".to_utf8
 # Ao
+```
+
+Binary data will be safely converted to UTF8 with loss, because there are characters in the binary
+8 bit ASCII that are not convertible to UTF8. However, the convertion will not fail.
+
+```
+text = "\xA9".force_encoding(Encoding::BINARY)
+puts text.to_utf8
+# ©
 ```

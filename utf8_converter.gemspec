@@ -9,8 +9,13 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jorge Del Rio']
   spec.email         = ['jdelrios@gmail.com']
 
-  spec.summary       = 'A gem to force all kind of text into UTF8 encoding'
-  spec.description   = 'This gem attempts to convert texts from unknown encodings to UTF8'
+  spec.summary       = 'A gem to force the convertion of text in any encoding into UTF8 without' +
+                       ' crashing and doing the best guess convertion'
+  spec.description   = 'This gem attempts to convert the received text to UTF8. It works by trying to' +
+                       ' convert the given text with a list of possible common encodings. This is' +
+                       ' useful if the developer knows the most common encodings that the application' +
+                       ' is going to be receiving, leaving the guessing work to this gem and by safely' +
+                       ' converting (without crash) the received text.'
   spec.homepage      = 'https://github.com/newint33h/utf8_converter.git'
   spec.license       = 'MIT'
 

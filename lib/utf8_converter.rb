@@ -35,7 +35,10 @@ class UTF8Converter
     @common_encodings.each do |encoding|
       return string if try_convert_from_encoding_to_utf8!(string, encoding)
     end
-    string.encode!(Encoding::UTF_8, invalid: :replace, replace: @default_replace_character)
+    string.encode!(Encoding::UTF_8, 
+                   invalid: :replace, 
+                   undef: :replace, 
+                   replace: @default_replace_character)
   end 
 end
 
